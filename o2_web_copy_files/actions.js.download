@@ -1,0 +1,105 @@
+function persooAddActions(document, window, persoo){
+    persoo.actionsJSLoaded = true
+    persoo.locations = {
+        "scenario_emailBasketCrosssell": {
+            "class": "PersonalizedBox",
+            "name": "Email: Basket - crosssell",
+            "config": {
+                "onUrl": ".*",
+                "onPageType": "email",
+                "selectorType": "query",
+                "selectorValue": "#non-existing-containerId",
+                "insertMode": "replace",
+                "noTimeLimits": false
+            }
+        },
+        "scenario_productsInBasket": {
+            "class": "PersonalizedBox",
+            "name": "Products in basket",
+            "config": {
+                "onUrl": "",
+                "onPageType": "internal",
+                "selectorType": "query",
+                "selectorValue": "#non-existing-containerId",
+                "insertMode": "replace",
+                "noTimeLimits": false
+            }
+        },
+        "scenario_defaultScenario": {
+            "class": "PersonalizedBox",
+            "name": "Default recommedation for tests only",
+            "config": {
+                "onUrl": ".*",
+                "onPageType": "email",
+                "selectorType": "query",
+                "selectorValue": "#persooDefaultLocation",
+                "insertMode": "replace",
+                "noTimeLimits": false
+            }
+        },
+        "scenario_emailProductVariantsInBasket": {
+            "class": "PersonalizedBox",
+            "name": "Email: product variants in basket",
+            "config": {
+                "onUrl": "",
+                "onPageType": "email",
+                "selectorType": "query",
+                "selectorValue": "#non-existing-containerId",
+                "insertMode": "replace",
+                "noTimeLimits": false
+            }
+        }
+    }
+    persoo.pluginsConfig = {
+        "report-statistics": {
+            "sendEvents": false,
+            "sendGroupEvents": true
+        }
+    }
+    persoo.actions = persoo.actions || {};
+    var s = document.createElement('script');
+    s.setAttribute('src', 'https://s.o2.cz/scripts/LBX-43775.js');
+    document.body.appendChild(s);
+
+    /* report default pageview */
+    if (!persoo.ignoreDefaultSendPageview && true) {
+        persoo('send','pageview');
+    }
+    persoo('actionScript', 'loaded', 'actions.js');
+}
+window.persoo = window.persoo || {};
+window.persoo.identificationRequestLifeSpan = 'browser';
+window.persoo.requestPreprocessor = function (data) {
+    var customPreprocessor = function process(event) {
+    
+    return event;
+}
+;
+    var identificationPreprocessor =  function (data, idTypes) { var containsIdentification = data.idType && data.idValue; for (var i = 0; i < idTypes.length && !containsIdentification; i++) { if (data[idTypes[i]]) { data.idType = idTypes[i]; data.idValue = data[idTypes[i]]; delete data[idTypes[i]]; containsIdentification = true; } } return data; } ;
+    var unsubscribeLinkPreprocessor =  function (d, idTypes) { var pue = "persooUnsubscribeEmail", pk = "persooKey", r = "Reported"; if (d[pue] && !window.persoo[pue + r]) { window.persoo[pue + r] = 1; var e = d[pue], k = d[pk]; if (k && e == atob(k)) { setTimeout(function () { window.persoo("send", "unsubscribeEmail", {email: e, emailValue: e, key: k}); }, 100); } } delete d[pue]; delete d[pk]; return d; } ;
+    var addUrlParamsToData =  function (data, urlParamsMap) { function parseParams(query) { var query_string = {}; var vars = query.split("&"); for (var i = 0; i < vars.length; i++) { var pair = vars[i].split("="); var varName = pair[0]; varVal = pair.splice(1).join("="); if (typeof query_string[varName] === "undefined") { query_string[varName] = varVal; } else { if (typeof query_string[varName] === "string") { var arr = [query_string[varName], varVal]; query_string[varName] = arr; } else { query_string[varName].push(varVal); } } } return query_string; } var search = window.location.search.substring(1); var hash = window.location.hash.substring(1); var queryParams = parseParams(search); var hashParams = parseParams(hash); for (var param in urlParamsMap) { if (urlParamsMap.hasOwnProperty(param)) { var newParam = urlParamsMap[param]; if (typeof queryParams[param] !== "undefined") { data[newParam] = queryParams[param]; } else { if (typeof hashParams[param] !== "undefined") { data[newParam] = hashParams[param]; } } } } return data; } ;
+    var idTypes = ["customerId"];
+    var urlParamsMap = {"persooUnsubscribeEmail":"persooUnsubscribeEmail","persooKey":"persooKey"};
+    var normalizeQuery =  function (query) { if (Array.isArray(query)) { return query[0]; } else { var queryAsString = (typeof query == "string") ? query : JSON.stringify(query); return queryAsString.toLowerCase().replace(/^\s+|\s+$/g, "").replace(/\s+/g, " "); } } ;
+    var eventNameWhitelist = ["pageview","click","impression","submit","close","statistics","addToCart","addToBasket","removeItem","getScenario","getRecommendation","getAlgorithm","suggest","oneSignal","oneSignalWebhook","unsubscribeEmail","updateProfile","searchQueryChanged"];
+    var eventNameBlacklist = ["optimize.domChange"];
+    
+    data = customPreprocessor(data);
+    if (data) {
+        if (data.query) {data.query = normalizeQuery(data.query);};
+        data = addUrlParamsToData(data, urlParamsMap);
+        data = unsubscribeLinkPreprocessor(data, idTypes);
+        data = identificationPreprocessor(data, idTypes);
+        if (eventNameWhitelist.length > 0) {
+            if (eventNameWhitelist.indexOf(data._e) < 0) {
+                return null;
+            }
+        } else if (eventNameBlacklist.length > 0 && eventNameBlacklist.indexOf(data._e) >= 0) {
+                return null;
+        }
+    }
+    return data;
+};
+if (!persoo.actionsJSLoaded) {
+    persooAddActions(document, window, window.persoo);
+}

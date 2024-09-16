@@ -1,0 +1,132 @@
+
+
+(function() {
+
+	var $oldContent = $('.js2-sso');
+	var $toShow = $();
+	
+	// Závažnost zprávy se indikuje stylem záhlaví:
+	var styleMap = {
+		error:   "color:#c00;font-weight:bold",
+		warning: "color:#990;font-weight:bold",
+		info:    "color:#39c;font-weight:bold",
+		debug:   "color:#777;font-weight:bold"
+	};
+
+	// Mapování závažnosti na numerické hodnoty:
+	var levelMap = {
+		none:    5,
+		error:   4,
+		warning: 3,
+		info:    2,
+		debug:   1
+	};
+	
+	var logLevel = levelMap["none"];
+
+	var report = function(severity, msg, data) {
+		if (levelMap[severity] < logLevel) { return; }
+		console.log("%cNCAS implementation " + severity, styleMap[severity]);
+		console.log(msg);
+		if (data) {
+			console.log(data);
+		}
+	};
+
+	var execReplacements = function($oldContent, $doc) {
+
+		var $fragments = ($doc && $doc.find('.js2-sso')) || $();
+		var idSet = {};
+
+		$oldContent.each(function() {
+			var id = $(this).attr('id');
+			if (id) {
+				idSet[id] = this;
+				report('debug', 'Element with ID ' + id + ' marked for replacement.', this);
+			} else {
+				report('error', 'Element without ID attribute marked for replacement.', this);
+			}
+		});
+		
+		$fragments.each(function() {
+
+			var $out = $(this);
+			var fragmentId = $out.attr('id');
+			var $placeholder = $('#' + fragmentId);
+
+			switch ($placeholder.length) {
+			case 0:
+				report('warning', 'Element with ID ' + fragmentId + ' not found in the current document.', this);
+				return;
+			default:
+				idSet[fragmentId] = false;
+			}
+
+			var $container = $placeholder.closest('.js2-sso-container');
+
+			switch (true) {
+			case $out.is('.js2-sso--classes'):
+				$placeholder.get(0).className = $out.get(0).className;
+				report('debug', 'Element with ID ' + fragmentId + ' found, classes updated.', this);
+				break;
+			default:
+				$placeholder.trigger('contentgone');
+				$placeholder.replaceWith($out);
+				report('debug', 'Element with ID ' + fragmentId + ' found and replaced.', this);
+			}
+
+			if ($out.hasClass('js2-sso--shown') && $container.length) {
+				$toShow = $toShow.add($container);
+			}
+		});
+		
+		for (var id in idSet) {
+			var el = idSet[id];
+			if (el) {
+				report('warning', 'Element with ID ' + id + ' not found in the current document.', el);
+			}
+		}
+	};
+
+	var reInit = function() {
+
+
+		report('debug', 'Starting initialization of newly loaded widgets (2.0).');
+		$(document).trigger('contentready');
+		report('debug', 'Starting initialization of newly loaded widgets (1.0).');
+		$(document).trigger('sso:ajax:done'); // Dočasné - kvůli kompatibilitě s DSYS 1.0
+
+		$toShow.show();
+		report('debug', 'New containers shown.');
+	};
+
+	var loadNewContent = function($oldContent) {
+		report('info', 'Starting XHR for ' + location.href + '.');
+		$.get({
+			url: location.href + (location.href.indexOf('?') > -1 ? '&' : '?') + '_t=' + (new Date()).getTime(),
+			dataType: 'html',
+			success: function(data) {
+				report('debug', 'New document loaded.', data);
+				execReplacements($oldContent, $('<div>' + data + '</div>'));
+				reInit();
+			},
+			error: function() {
+				report('error', 'XHR failed.', arguments);
+			}
+		});
+	};
+
+	report('info', 'SSO script start.');
+
+
+		report('error', 'Redirect to SSO login failed - no SSO session.');
+
+
+})();
+
+
+/* 
+
+__ETN_.O.K.__
+
+ */

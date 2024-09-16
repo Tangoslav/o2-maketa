@@ -1,0 +1,191 @@
+[
+    {
+        "technologyList": [],
+        "code": "MUJ_PRVNI_TARIF",
+        "groups": [
+            {
+                "code": "GROUP_CHEAP",
+                "priority": 0
+            }
+        ],
+        "highlightedProducts": [
+            {
+                "groups": [
+                    {
+                        "code": "TR0210",
+                        "priority": 27
+                    },
+                    {
+                        "code": "TR1310",
+                        "priority": 7
+                    }
+                ],
+                "price": {
+                    "chargingCode": "PRODC_TS_FEE_TETRIS_3",
+                    "currencyCode": "CZK",
+                    "priceWithoutVAT": "784.30",
+                    "priceWithVAT": "949",
+                    "type": "MONTHLY",
+                    "vat": "164.70",
+                    "vatRatePercent": "21",
+                    "vatType": "STANDARD"
+                },
+                "productCode": "PRODC_TS_TARIFF_STD_TETRIS_3"
+            }
+        ],
+        "prices": [
+            {
+                "originType": "PRODUCT",
+                "priceWithVAT": "349",
+                "type": "MONTHLY",
+                "chargingCode": "PRODC_TS_FEE_KUL",
+                "productCode": "PRODC_TS_TARIFF_STD_KUL"
+            }
+        ],
+        "tags": ["sdfs"],
+        "validFrom": "2024-06-27T12:49:11.924Z"
+    },
+    {
+        "technologyList": [],
+        "code": "NEO_BRONZOVY_REL",
+        "groups": [
+            {
+                "code": "GROUP_CHEAP",
+                "priority": 0
+            }
+        ],
+        "highlightedProducts": [],
+        "prices": [
+            {
+                "originType": "PRODUCT",
+                "priceWithVAT": "749",
+                "type": "MONTHLY",
+                "chargingCode": "PRODC_TS_FEE_TEMPERA_1",
+                "productCode": "PRODC_TS_TARIFF_STD_TEMPERA_1"
+            }
+        ],
+        "tags": [],
+        "validFrom": "2024-07-11T09:05:06.955Z"
+    },
+    {
+        "technologyList": [
+            {
+                "priority": 55,
+                "type": "VDSLBONDING"
+            }
+        ],
+        "code": "NEO_MODRY_MANUAL",
+        "groups": [
+            {
+                "code": "GROUP_CHEAP",
+                "priority": 0
+            }
+        ],
+        "highlightedProducts": [
+            {
+                "groups": [
+                    {
+                        "code": "TR0210",
+                        "priority": 27
+                    },
+                    {
+                        "code": "TR1310",
+                        "priority": 7
+                    }
+                ],
+                "price": {
+                    "chargingCode": "PRODC_TS_FEE_TETRIS_3",
+                    "currencyCode": "CZK",
+                    "priceWithoutVAT": "784.30",
+                    "priceWithVAT": "949",
+                    "type": "MONTHLY",
+                    "vat": "164.70",
+                    "vatRatePercent": "21",
+                    "vatType": "STANDARD"
+                },
+                "productCode": "PRODC_TS_TARIFF_STD_TETRIS_3"
+            }
+        ],
+        "prices": [
+            {
+                "originType": "PRODUCT",
+                "priceWithVAT": "599",
+                "type": "MONTHLY",
+                "chargingCode": "PRODC_TS_FEE_TETRIS_1",
+                "productCode": "PRODC_TS_TARIFF_STD_TETRIS_1"
+            }
+        ],
+        "tags": ["sdf"],
+        "validFrom": "2024-06-28T15:39:33.536Z"
+    },
+    {
+        "technologyList": [],
+        "code": "NEO_MODRY_VAS_FULL",
+        "groups": [
+            {
+                "code": "GROUP_CHEAP",
+                "priority": 0
+            }
+        ],
+        "highlightedProducts": [],
+        "prices": [],
+        "tags": [],
+        "validFrom": "2024-07-16T11:54:28.286Z"
+    },
+    {
+        "technologyList": [],
+        "code": "NEO_PLUS_BRONZOVY",
+        "groups": [
+            {
+                "code": "GROUP_CHEAP",
+                "priority": 0
+            }
+        ],
+        "highlightedProducts": [],
+        "prices": [
+            {
+                "originType": "PRODUCT",
+                "priceWithVAT": "749",
+                "type": "MONTHLY",
+                "chargingCode": "PRODC_TS_FEE_TEMPERA_1",
+                "productCode": "PRODC_TS_TARIFF_STD_TEMPERA_1"
+            }
+        ],
+        "tags": ["uuiu"],
+        "validFrom": "2024-06-28T08:29:16.275Z"
+    },
+    {
+        "technologyList": [],
+        "code": "OFFER_INTERNET_HD_SIGMA_185_1",
+        "groups": [
+            {
+                "code": "GROUP_CHEAP",
+                "priority": 0
+            }
+        ],
+        "highlightedProducts": [
+            {
+                "groups": [
+                    {
+                        "code": "TR0608",
+                        "priority": 3
+                    }
+                ],
+                "price": {
+                    "chargingCode": "PRODC_TS_FEE_INTERNET_HD_BRONZE",
+                    "currencyCode": "CZK",
+                    "priceWithoutVAT": "329.75",
+                    "priceWithVAT": "399",
+                    "type": "MONTHLY",
+                    "vat": "69.25",
+                    "vatRatePercent": "21",
+                    "vatType": "STANDARD"
+                },
+                "productCode": "PRODC_TS_TARIFF_STD_INTERNET_HD_BRONZE"
+            }
+        ],
+        "prices": [],
+        "tags": [],
+        "validFrom": "2024-08-23T11:00:50.268Z"
+    }
+]
